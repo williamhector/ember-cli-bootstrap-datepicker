@@ -12,8 +12,8 @@ module.exports = {
   included: function(app) {
     this._super.included.apply(this, arguments);
 
-    app.import(app.bowerDirectory + '/bootstrap-datepicker/dist/js/bootstrap-datepicker.js');
-    app.import(app.bowerDirectory + '/bootstrap-datepicker/dist/css/bootstrap-datepicker.css');
+    app.import('vendor/bootstrap-datepicker.js');
+    app.import('vendor/bootstrap-datepicker.css');
   },
 
   treeForVendor: function(vendorTree) {
