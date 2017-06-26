@@ -6,8 +6,8 @@ module.exports = function(defaults) {
     // Add options here
   });
 
-  app.import(app.bowerDirectory + '/bootstrap/dist/css/bootstrap.css');
-  app.import(app.bowerDirectory + '/bootstrap/dist/css/bootstrap.css.map', {
+  app.import('vendor/bootstrap.css');
+  app.import('vendor/bootstrap.css.map', {
     destDir: 'assets'
   });
 
