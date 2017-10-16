@@ -4,7 +4,6 @@ var path = require('path');
 
 var Funnel = require('broccoli-funnel');
 var mergeTrees = require('broccoli-merge-trees');
-var fbTransform = require('fastboot-transform');
 
 module.exports = {
   name: 'ember-cli-bootstrap-datepicker',
@@ -12,35 +11,27 @@ module.exports = {
   included: function(app) {
     this._super.included.apply(this, arguments);
 
-    app.import('vendor/bootstrap-datepicker.js');
-    app.import('vendor/bootstrap-datepicker.css');
+    app.import('vendor/bootstrap-datepicker/bootstrap-datepicker.js');
+    app.import('vendor/bootstrap-datepicker/bootstrap-datepicker.css');
   },
 
   treeForVendor: function(vendorTree) {
      var trees = [];
-     var datePickerPath = path.dirname(require.resolve('bootstrap-datepicker'));
+     var datePickerPath = path.join(path.dirname(require.resolve('bootstrap-datepicker')), '..');
 
      if (vendorTree) {
        trees.push(vendorTree);
      }
 
      //need to wrap with check if it's inside fastboot environment
-     trees.push(fbTransform(new Funnel(datePickerPath, {
+     trees.push(new Funnel(path.join(datePickerPath, 'js'), {
        destDir: 'bootstrap-datepicker',
-       include: [new RegExp(/\.js$/)],
-       exclude: [
-         'moment',
-         'moment.min',
-         'package',
-         'website'
-       ].map(function(key) {
-         return new RegExp(key + '\.js$');
-       })
-     })));
+       files: [ 'bootstrap-datepicker.js' ]
+     }));
 
-     trees.push(new Funnel(datePickerPath, {
+     trees.push(new Funnel(path.join(datePickerPath, 'css'), {
        destDir: 'bootstrap-datepicker',
-       include: [new RegExp(/\.css$/)]
+       files: [ 'bootstrap-datepicker.css' ]
      }));
 
      return mergeTrees(trees);
